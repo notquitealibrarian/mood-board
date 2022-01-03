@@ -1,0 +1,8 @@
+<h1>Add New Comment</h1>
+
+<%= bootstrap_form_with model: @comment, url: mood_board_comments_path(@mood_board), method: :post, local: true do |f| %>
+
+  <%= f.text_field :message %>
+  <%= f.submit %>
+
+<% end %>

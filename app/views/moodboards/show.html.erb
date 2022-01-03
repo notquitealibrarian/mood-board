@@ -1,0 +1,76 @@
+<h1 style="text-align: center"><%= @mood_board.title %></h1>
+<div class="container">
+    <div class="row">
+        <% @mood_board.pins.each_with_index  do |pin, p_index| %>
+            <% if p_index < 5 %>
+                <% offsets = [3,4,8,9,13,14,18,19,23,24,28,29] %>
+                <% if offsets.include?(p_index) %>
+                    <div class="col-lg-6 col-md-6 col-sm-12 mb-5 mt-5">
+                        <% if @mood_board.template == "Bubbles" %>
+                            <%= link_to image_tag(pin.image_file, :class=>'bubbles'), mood_board_pin_path(@mood_board, pin), title: pin.hovertext %>
+                        <%else%>
+                            <%= link_to image_tag(pin.image_file, :class=>'blocks'), mood_board_pin_path(@mood_board, pin), title: pin.hovertext %>
+                        <%end%>
+                    </div>
+                <% else %>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <% if @mood_board.template == "Bubbles" %>
+                            <%= link_to image_tag(pin.image_file, :class=>'bubbles'), mood_board_pin_path(@mood_board, pin), title: pin.hovertext %>
+                        <%else%>
+                            <%= link_to image_tag(pin.image_file, :class=>'blocks'), mood_board_pin_path(@mood_board, pin), title: pin.hovertext %>
+                        <%end%>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<h2>Current Rating: <%= @mood_board.global_rating %></h2>
+
+<p>
+    <% if user_signed_in? %>
+        <% if Rating.where(mood_board: @mood_board, user: current_user ).empty? %>
+            <p class="button"><%= link_to "Like!", mood_board_rating_path(@mood_board), method: :post, class: 'btn btn-primary' %></p>
+        <% else %>
+            You have liked this board! :)
+        <% end %>
+    <% end %>
+</p>
+
+<% if @mood_board.user == current_user %>
+    <p class="button"><%= link_to "Add/edit Pins", mood_board_pins_path(@mood_board), class: 'btn btn-primary' %>
+    <p class="button"> <%= link_to 'Edit Mood Board', edit_mood_board_path(@mood_board), class: 'btn btn-primary' %> </p>
+<% end %>
+
+<p class="button"><td><%= link_to "Back to the Home Page", root_path, class: 'btn btn-primary' %> </td>
+
+<p class="button"><%= link_to "Add a comment!", new_mood_board_comment_path(@mood_board), class: 'btn btn-primary' %></p>
+
+<%#<p class="button"><%= link_to "Get Inspired",  getinspired_path(@mood_board), class: 'btn btn-primary'%>
+
+<p><% @mood_board.comments.each do |m| %>
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+               <% if m.user %> 
+                    <center> <h2><%= m.user.username %></h2> </center>
+                    <% if m.user.image_file.attached? %>
+                        <%= image_tag url_for(current_user.image_file),
+                        class: 'w-100 rounded-circle shadow-lg d-block mx-auto',
+                        style: 'max-width: 10rem;' %>
+                    <% end %>
+                <% else %>
+                    <h2>"Anonymous"</h2>
+                <% end %>
+            </div>
+            <div class="card-text">
+                <p><%= m.message %><br>
+                <% if @mood_board.user == current_user %>
+                    <%= link_to "Delete", mood_board_comment_path(@mood_board, m), method: :delete %>
+                <% end %>
+            </div>
+        </div> 
+    </div>
+<% end %></p>
+

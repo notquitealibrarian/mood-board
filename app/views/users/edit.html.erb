@@ -1,0 +1,19 @@
+<center><h1><%= current_user.username %></h1></center>
+
+<% if current_user.image_file.attached? %> 
+  <%= image_tag url_for(current_user.image_file),
+                    class: 'w-100 rounded-circle shadow-lg d-block mx-auto',
+                      style: 'max-width: 10rem;' %>
+<% end %>
+
+
+
+<<%= bootstrap_form_with model: current_user, url: user_path(current_user), method: :patch, local: true do |f|%>
+    <%= f.file_field :image_file %>
+    <%= f.text_field :about_me %>
+    <%= f.text_field :email %>
+    <%= f.submit %>
+<% end %>
+
+
+<p><%= link_to 'Cancel', user_path(current_user) %></p>

@@ -1,0 +1,6 @@
+<h1>Grab Pin!</h1>
+
+<%= form_with model: @pin, url: repin_pin_path(@pin), method: :post, local: true do |f| %>
+    <%= f.select :mood_board_id, @moodboards.collect { |m| [m.title, m.id] } %>
+    <%= f.submit %>
+<% end %>

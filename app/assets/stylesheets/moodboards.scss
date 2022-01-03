@@ -1,0 +1,40 @@
+// Place all the styles related to the moodboards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.blocks {
+  transform: scale(1);
+  transition: all .25s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: auto;
+  vertical-align: middle;
+  
+  &:hover {
+    z-index: 1;
+    transform: scale(1.2);
+  }
+}
+
+.bubbles {
+  clip-path: circle(35%);
+  transform: scale(1);
+  transition: all .25s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: auto;
+  vertical-align: middle;
+  
+  &:hover {
+    z-index: 1;
+    transform: scale(1.2);
+  }
+}
+
+
+.mb-info {
+  padding-top: 10px;
+}
+
+

@@ -1,0 +1,33 @@
+<%= bootstrap_form_with model:  @mood_board, local: true do |f| %>
+
+  <%= f.text_field :title %>
+  <%= f.select :template, [["Bubbles"], ["Blocks"]], label: "Choose your Mood Board template:" %>
+  <% @editing_other = false %>
+  <% @mbs = current_user.mood_boards %>
+  <% @mbs.each do |f| %>
+    <% if f.editing == true %>
+      <% if f.title != @mood_board.title %>
+        <% @editing_other = true %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if @editing_other == false %>
+    <%= f.check_box :editing, label: "Editing Mode" %>
+  <% end %>
+  <% @featured_other = false %>
+  <% @mbs2 = current_user.mood_boards %>
+  <% @mbs2.each do |d| %>
+    <% if d.featured == true %>
+      <% if d.title != @mood_board.title %>
+        <% @featured_other = true %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if @featured_other == false %>
+    <%= f.check_box :featured, label: "Feature This Board" %>
+  <% end %>
+  <%= f.submit %>
+
+<% end %>
+
+<p><td><%= link_to "Cancel", root_path %> </td>

@@ -1,0 +1,34 @@
+<h1 class="center">Photo | <%= @pin.pin_name %></h1>
+
+<% if @pin.mood_board.template == "Bubbles" %>
+    <p class="center">
+        <%= image_tag @pin.image_file,
+        title: @pin.hovertext,
+        class: 'bubbles',
+        style: 'max-width: 32rem;  padding-top: 25px;  padding-bottom: 25px;'
+        %>
+    </p>
+<% else %>
+    <p class="center">
+        <%= image_tag @pin.image_file,
+        class: 'blocks',
+        style: 'max-width: 32rem; padding-top: 25px; padding-bottom: 25px;'
+        %>
+    </p>
+<% end %>
+
+<div class="center">
+    <% if @editing_mb %>
+        <p class="button"><%= link_to "Add to board being editied", editing_pin_path(@pin), :method=>:post, class: 'btn btn-primary' %></p>
+    <% end %>
+
+    <% if current_user && current_user.mood_boards.exists? %>
+        <p class="button"><%= link_to "Grab Image", grab_pin_path(@pin), class: 'btn btn-primary' %></p>
+    <% end %>
+
+    <% if @moodboard.user == current_user %>
+        <p class="button"><%= link_to "Back to Pins index", mood_board_pins_path(@moodboard), class: 'btn btn-primary' %>
+    <% end %>
+
+    <p class="button"><%= link_to "Back to " + @pin.mood_board.title, mood_board_path(@pin.mood_board), class: 'btn btn-primary' %></p>
+</div>

@@ -1,0 +1,12 @@
+<h1>Edit Photo</h1>
+
+<%= bootstrap_form_with model: @pin, url: mood_board_pin_path(@moodboard, @pin), method: :patch, local: true do |f| %>
+
+    <%= f.text_field :pin_name %>
+    <%= f.text_field :hovertext %>
+    <%= f.file_field :image_file %>
+    <%= f.submit %>
+
+<% end %>
+
+<p><%= link_to 'Cancel', mood_board_pins_path(@moodboard) %></p>

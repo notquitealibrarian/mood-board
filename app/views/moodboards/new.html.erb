@@ -1,0 +1,11 @@
+<h1>Create a new Mood Board</h1>
+
+<%= bootstrap_form_with model: @mood_board, method: :post, url: mood_boards_path, local: true do |f| %>
+
+
+<%= f.text_field :title, placeholder: 'Enter Mood Board title here.'%>
+<%= f.select :template, options_for_select(["Bubbles","Blocks"]), {}, { class: "form-control" } %>
+<%= f.submit %>
+<% end %>
+<p><td><%= link_to "Cancel", root_path %> </td>
+ 

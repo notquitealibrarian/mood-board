@@ -1,0 +1,99 @@
+<center> <h1><%= @user.username %></h1></center>
+
+
+<% if @user.image_file.attached? %>
+	<%= image_tag url_for(current_user.image_file),
+	class: 'w-100 rounded-circle shadow-lg d-block mx-auto',
+	style: 'max-width: 10rem;' %>
+<% end %>  
+
+
+<p>About Me: <%= @user.about_me%></p>
+
+
+
+
+
+
+<p class="button">
+<%= link_to 'Edit Profile', edit_user_path(current_user), class: 'btn btn-primary' %>
+<%= link_to "Back to the Moodboard index", root_path, class: 'btn btn-primary' %> 
+<%= link_to 'Create Mood Board', new_mood_board_path, class: 'btn btn-primary' %>
+</p>
+
+
+<%# Featured Moodboard %>
+<hr style="background-color:#000;">
+<h1 style="text-align: center; font-weight: bold;">Featured MoodBoard</h1>
+<hr style="background-color:#000;">
+
+<% @mbs = @user.mood_boards %>
+<% @mbs.each do |m| %>
+<% if m.featured %>
+    <h1 style="text-align: center; font-weight: bold"><%=link_to m.title, mood_board_path(m)%></h1>
+    <div class="container"> 
+        <div class="row">
+            <%if m.featured? %>
+                <% m.pins.each_with_index do |pin, p_index|%>
+                    <%if p_index < 5 %>
+                        <% offsets = [3,4,8,9,13,14,18,19,23,24,28,29] %>
+                        <%if offsets.include?(p_index) %>
+                            <div class="col-lg-6 col-md-6 col-sm-12 mb-5 mt-5">
+                                <% if m.template == "Bubbles" %>
+                                    <%= link_to image_tag(pin.image_file, :class=>'bubbles'), mood_board_pin_path(m, pin)%>
+                                <%else%>
+                                    <%= link_to image_tag(pin.image_file, :class=>'blocks'), mood_board_pin_path(m, pin)%>
+                                <%end%>
+                            </div>
+                        <%else%>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <% if m.template == "Bubbles" %>
+                                    <%= link_to image_tag(pin.image_file, :class=>'bubbles'), mood_board_pin_path(m, pin)%>
+                                <%else%>
+                                    <%= link_to image_tag(pin.image_file, :class=>'blocks'), mood_board_pin_path(m, pin)%>
+                                <%end%>
+                            </div>
+                        <%end%>
+                    <%end%>
+                <%end%>
+                <div class="container mb-info mr-auto">
+                    <h3>Rating: <%= m.global_rating %></h3>
+                </div>        
+            <%end%>
+        </div>
+    </div>
+    <% end %> 
+<%end%>
+<%# <p>TODO: Link to  Feature Mood Board. <%= link_to 'Feature', Feature_moodboard_path(@moodboard) </p> %>
+
+
+
+
+<table class="table table-striped table-hover">
+  <thead class="table-primary">
+    <tr>
+      <th>Mood Boards</th>
+      <th>Template</th>
+      <th>Rating</th>
+      <th>Featured</th>
+      <th>Modify Board</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @mood_board.each do |m| %>
+      <tr>
+        <td><%= link_to m.title, mood_board_path(m) %> </td>
+        <td><%= m.template %></td>
+        <td><%= m.global_rating %></td>
+        <td><%= m.featured %></td>
+        <td>
+        <%= link_to 'Edit', edit_mood_board_path(m) %> |
+        <%= link_to 'Destroy', destroy_mood_board_path(m), method: :delete %>
+        </td>  
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+                    
+
